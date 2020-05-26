@@ -1,0 +1,82 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Mavidev Example Application</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+    $( document ).ready(function() {
+    	
+        var loadTowns = function(){
+        	alert("works!");
+        }
+        
+        $.getJSON("il.json", function(sonuc){
+            $.each(sonuc, function(index, value){
+                var div = document.createElement("div");
+                div.setAttribute("class","city");
+                var span = document.createElement("span")
+                span.textContent=value.name;
+                div.appendChild(span);
+                span.onclick = function(){
+                	$("#towns").empty();
+                    var il=value.id;
+        	         $.getJSON("ilce.json", function(sonuc){
+        	             $.each(sonuc, function(index, value){
+        	                 var row="";
+        	                 if(value.il_id==il)
+        	                 {
+        	                     row +='<span value="'+value.id+'">'+value.name+'</span><br>';
+        	                     $("#towns").append(row);
+        	                 }
+        	             });
+        	         });
+                }
+                $("#cities").append(div);
+            })
+        });
+    });
+    </script>
+    <style type="text/css">
+    #cities, #towns {
+    	border: 1px black solid;
+    	padding: 5px;
+    	height: 1700px;
+    }
+    .city span {
+     	cursor: pointer; 
+    }
+    </style>
+</head>
+<body>
+	
+	<div class="container">
+	
+		<h2>Mavidev Example Application</h2>
+		
+		<hr>
+		
+	    <div class="row">
+	        <div class="col-md-3">
+	        	<h3>Cities</h3>
+	        	<div id="cities">
+	        	
+	        	</div>
+	        </div>
+	
+	        <div class="col-md-3 col-md-offset-1">
+	        	<h3>Towns</h3>
+	        	<div id="towns">
+	        	
+	        	</div>
+	        </div>
+	    </div>
+
+	
+	</div>
+	
+	
+
+</body>
+</html>
